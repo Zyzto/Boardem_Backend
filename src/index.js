@@ -30,6 +30,7 @@ const { PORT, DB } = process.env
         })
 
         server.applyMiddleware({ app })
+        app.use(express.json())
 
         app.listen({ port: PORT }, () =>
             console.log(
