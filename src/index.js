@@ -7,32 +7,36 @@ import mongoose from 'mongoose'
 
 const { PORT, DB } = process.env
 ;(async () => {
-	try {
-		mongoose.connect(
-			DB,
-			{ useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true },
-			() => console.log(`🖥Database Connected to => ${DB}`),
-			(err) => console.log(`🖥Database Error ${err}`),
-		)
+    try {
+        mongoose.connect(
+            DB,
+            {
+                useCreateIndex: true,
+                useNewUrlParser: true,
+                useUnifiedTopology: true,
+            },
+            () => console.log(`🖥Database Connected to => ${DB}`),
+            (err) => console.log(`🖥Database Error ${err}`)
+        )
 
-		const app = express()
+        const app = express()
 
-		app.disable('x-powered-by')
+        app.disable('x-powered-by')
 
-		const server = new ApolloServer({
-			typeDefs,
-			resolvers,
-			playground: true,
-		})
+        const server = new ApolloServer({
+            typeDefs,
+            resolvers,
+            playground: true,
+        })
 
-		server.applyMiddleware({ app })
+        server.applyMiddleware({ app })
 
-		app.listen({ port: PORT }, () =>
-			console.log(
-				`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`,
-			),
-		)
-	} catch (err) {
-		console.log(`Server Can't start ${err}`)
-	}
+        app.listen({ port: PORT }, () =>
+            console.log(
+                `🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`
+            )
+        )
+    } catch (err) {
+        console.log(`Server Can't start ${err}`)
+    }
 })()
