@@ -7,6 +7,7 @@ export default gql`
     }
     extend type Mutation {
         register(email: String!, username: String!, password: String!): User
+        login(userInput: String!, password: String!): Auth!
     }
     type User {
         id: ID!
@@ -14,5 +15,8 @@ export default gql`
         username: String!
         createdAt: String!
         updatedAt: String!
+    }
+    type Auth {
+        token: String!
     }
 `
