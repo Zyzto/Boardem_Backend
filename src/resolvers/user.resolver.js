@@ -10,7 +10,7 @@ import { isLoggedIn } from '../helper'
 export default {
     Query: {
         me: async (root, ags, { req }, info) => {
-            return await isLoggedIn(req.headers.authorization)
+            return await isLoggedIn(req.headers.authorization.split(' ')[1])
         },
         users: (root, args, context, info) => {
             return User.find({})
