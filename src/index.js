@@ -29,6 +29,7 @@ const { PORT, DB } = process.env
             cors: false,
             playground: true,
             context: ({ req, res }) => ({ req, res }),
+            introspection: true,
         })
 
         server.applyMiddleware({ app })
