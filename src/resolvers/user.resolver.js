@@ -1,6 +1,6 @@
 import { User } from '../models'
 import mongoose from 'mongoose'
-import { UserInputError } from 'apollo-server-express'
+import { UserInputError, AuthenticationError } from 'apollo-server-express'
 import Joi from '@hapi/joi'
 import { RegisterValidate } from '../validations'
 import { hash, compare, compareSync } from 'bcryptjs'
@@ -14,14 +14,14 @@ export default {
         user: (root, { id }, context, info) => {
             console.log('id:', id)
             if (mongoose.Types.ObjectId.isValid(id)) return User.findById(id)
-            else throw UserInputError(id + 'is not vaild information')
+            else throw UserInputError(id + ' is not vaild information')
         },
     },
     Mutation: {
         register: async (root, args, context, info) => {
             //TODO not auth
 
-            //TODO validation
+            // * validation
             const { error, value } = await RegisterValidate.validate(args, {
                 abortEarly: false,
             })
@@ -30,15 +30,16 @@ export default {
         },
         login: async (root, { userInput, password }, context, info) => {
             let user = null
+            // * check if input is email
             let { error, _ } = await Joi.string().email().validate(userInput)
-            console.log('ERROR : ', error)
+            // * find email if input is email type
             if (!error) user = await User.findOne({ email: userInput })
+            // * find username if not email type
             if (error) user = await User.findOne({ username: userInput })
-
+            // * check if password is correct password
             if (user && password) {
-                console.log('here')
                 let isMatch = await compareSync(password, user.password)
-                if (!isMatch) return 'Wrong Password'
+                if (!isMatch) throw new AuthenticationError('Invalid Password')
                 const payload = {
                     user: {
                         id: user._id,
@@ -49,7 +50,7 @@ export default {
                         issuer: user.email,
                     }),
                 }
-            }
+            } else throw new AuthenticationError(`${userInput} is not found`)
         },
     },
 }

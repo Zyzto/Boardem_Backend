@@ -17,6 +17,6 @@ export default gql`
         updatedAt: String!
     }
     type Auth {
-        token: String!
+        token: String
     }
 `
