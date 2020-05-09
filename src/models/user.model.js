@@ -10,6 +10,8 @@ const userSchema = new mongoose.Schema(
                 validator: (username) => User.doesntExist({ username }),
                 message: ({ value }) => `${value} has already been taken`, //TODO security
             },
+            lowercase: true,
+            trim: true,
         },
         email: {
             type: String,
@@ -24,7 +26,6 @@ const userSchema = new mongoose.Schema(
         password: {
             type: String,
             required: true,
-            minlength: [6, 'Password minimum length is 6 character'],
         },
         gameInProgress: {
             type: mongoose.Schema.Types.ObjectId,
