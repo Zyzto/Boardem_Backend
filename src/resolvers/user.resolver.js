@@ -5,9 +5,14 @@ import Joi from '@hapi/joi'
 import { RegisterValidate } from '../validations'
 import { hash, compare, compareSync } from 'bcryptjs'
 import { sign } from 'jsonwebtoken'
+import { isLoggedIn } from '../helper'
 
 export default {
     Query: {
+        me: async (root, ags, { req }, info) => {
+            let user = await isLoggedIn(req.headers.authorization)
+            if (user) return await User.findById(user.id)
+        },
         users: (root, args, context, info) => {
             return User.find({})
         },
