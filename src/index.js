@@ -26,7 +26,9 @@ const { PORT, DB } = process.env
         const server = new ApolloServer({
             typeDefs,
             resolvers,
+            cors: false,
             playground: true,
+            context: ({ req, res }) => ({ req, res }),
         })
 
         server.applyMiddleware({ app })
