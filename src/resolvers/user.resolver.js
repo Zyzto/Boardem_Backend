@@ -38,8 +38,8 @@ export default {
             if (error) user = await User.findOne({ username: userInput })
             // * check if password is correct password
             if (user && password) {
-                let isMatch = await compareSync(password, user.password)
-                if (!isMatch) throw new AuthenticationError('Invalid Password')
+                if (!(await compareSync(password, user.password)))
+                    throw new AuthenticationError('Invalid Password')
                 const payload = {
                     user: {
                         id: user._id,
