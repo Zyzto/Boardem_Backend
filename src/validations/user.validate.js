@@ -3,6 +3,7 @@ import Joi from '@hapi/joi'
 export default Joi.object({
     username: Joi.string()
         .alphanum()
+        .message('Username must only contain A-z or 0-9')
         .min(3)
         .message('Username must have at least 3 characters')
         .max(30)
