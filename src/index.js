@@ -4,6 +4,7 @@ import typeDefs from './typeDefs'
 import resolvers from './resolvers'
 import express from 'express'
 import mongoose from 'mongoose'
+import schemaDirectives from './directives'
 
 const { PORT, DB } = process.env
 ;(async () => {
@@ -26,13 +27,13 @@ const { PORT, DB } = process.env
         const server = new ApolloServer({
             typeDefs,
             resolvers,
-            cors: false,
+            // schemaDirectives,
             playground: true,
             context: ({ req, res }) => ({ req, res }),
             introspection: true,
         })
 
-        server.applyMiddleware({ app })
+        server.applyMiddleware({ app /*cors: false*/ })
         app.use(express.json())
 
         app.listen({ port: PORT }, () =>
