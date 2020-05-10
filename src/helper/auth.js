@@ -4,7 +4,10 @@ import { verify } from 'jsonwebtoken'
 
 export default async (token) => {
     if (!token) return new AuthenticationError('Token is invalid')
-    let verified = await verify(token, process.env.SECRET)
+    token = token.split(' ')
+    if (token[0] !== 'Bearer')
+        return new AuthenticationError('Token is invalid')
+    let verified = await verify(token[1], process.env.SECRET)
     if (!verified) return new AuthenticationError('Token is invalid')
     let user = await User.findById(verified.user.id)
     if (!user) return new AuthenticationError('No User found')
