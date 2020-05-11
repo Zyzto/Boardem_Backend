@@ -10,7 +10,7 @@ import { isLoggedIn } from '../helper'
 export default {
     Query: {
         me: async (root, ags, { req }, info) => {
-            return await isLoggedIn(req.headers.authorization.split(' ')[1])
+            return await isLoggedIn(req.headers.authorization)
         },
         users: (root, args, context, info) => {
             return User.find({})
@@ -50,9 +50,9 @@ export default {
                     },
                 }
                 return {
-                    token: sign(payload, process.env.SECRET, {
+                    token: `Bearer ${sign(payload, process.env.SECRET, {
                         issuer: user.email,
-                    }),
+                    })}`,
                 }
             } else throw new AuthenticationError(`${userInput} is not found`)
         },

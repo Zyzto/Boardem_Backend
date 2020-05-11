@@ -5,6 +5,7 @@ import resolvers from './resolvers'
 import express from 'express'
 import mongoose from 'mongoose'
 import schemaDirectives from './directives'
+import cors from 'cors'
 
 const { PORT, DB } = process.env
 ;(async () => {
@@ -33,7 +34,20 @@ const { PORT, DB } = process.env
             introspection: true,
         })
 
-        server.applyMiddleware({ app /*cors: false*/ })
+        const corsOptions = {
+            origin: 'http://localhost:3004',
+            credentials: true,
+        }
+        app.use(
+            cors({
+                origin: true,
+                credentials: true,
+            })
+        )
+        server.applyMiddleware({
+            app,
+            cors: false,
+        })
         app.use(express.json())
 
         app.listen({ port: PORT }, () =>
