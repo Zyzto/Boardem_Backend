@@ -9,7 +9,7 @@ const roomSchema = new mongoose.Schema({
     ],
     chat: [
         {
-            person: {
+            sender: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'User',
             },

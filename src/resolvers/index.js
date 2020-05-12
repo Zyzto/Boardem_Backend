@@ -1,3 +1,4 @@
 import user from './user.resolver'
-
-export default [user]
+import room from './room.resolver'
+import game from './game.resolver'
+export default [user, room, game]

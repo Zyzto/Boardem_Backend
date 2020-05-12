@@ -13,6 +13,14 @@ const gameSchema = new mongoose.Schema({
         type: Boolean,
         required: true,
     },
+    playersLimit: {
+        type: Number,
+        required: true,
+    },
+    time: {
+        type: Number,
+        required: true,
+    },
 })
 
 const Game = mongoose.model('Game', gameSchema)
