@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-express'
 
 export default gql`
     extend type Query {
-        me: User
+        me: User # @isLoggedIn
         user(id: ID!): User
         users: [User!]!
     }
@@ -14,6 +14,8 @@ export default gql`
         id: ID!
         email: String!
         username: String!
+        gameInProgress: Room!
+        isAdmin: Boolean!
         createdAt: String!
         updatedAt: String!
     }
