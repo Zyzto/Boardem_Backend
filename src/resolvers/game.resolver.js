@@ -1,12 +1,24 @@
-import { Game } from '../models'
+import { Game, Room } from '../models'
+import { isLoggedIn } from '../helper'
 
 export default {
     Query: {
         games: async (root, args, { req }, info) => {
             return await Game.find({})
+            // console.log(room)
+            // let roomCount = room.length
+            // console.log(roomCount)
+            // console.log((game = { game, roomCount }))
+            // return (game = { game, roomCount })
         },
         game: async (root, { id }, { req }, info) => {
             return await Game.findById(id)
+        },
+        roomCount: async (root, { id }, { req }, info) => {
+            let room = await Room.find({ game: id })
+            let roomCount = room.length
+            console.log(roomCount)
+            return roomCount
         },
     },
     Mutation: {

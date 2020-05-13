@@ -4,6 +4,7 @@ export default gql`
     extend type Query {
         games: [Game!]!
         game(id: ID!): Game!
+        roomCount(id: ID!): Int!
     }
     extend type Mutation {
         newGame(
@@ -12,6 +13,7 @@ export default gql`
             gameDetails: String!
             playersLimit: Int!
             time: Int!
+            img: String!
         ): Game
         editGame(
             id: ID!
@@ -20,6 +22,7 @@ export default gql`
             time: Int
             gameDetails: String
             playersLimit: Int
+            img: String
         ): Game
         deleteGame(id: ID!): String!
     }
@@ -28,6 +31,12 @@ export default gql`
         name: String!
         isScorable: Boolean!
         gameDetails: String!
+        playersLimit: Int
         time: Int!
+        img: String!
+        # count(id: ID!): RoomCount!
     }
+    # type RoomCount {
+    #     count: Int
+    # }
 `
