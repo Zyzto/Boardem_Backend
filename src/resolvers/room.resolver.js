@@ -9,22 +9,29 @@ export default {
         room: async (root, { id }, { req }, info) => {
             return await Room.findById(id)
         },
+        gameRooms: async (root, { game }, { req }, info) => {
+            return await Room.find({ game })
+                .populate('players')
+                .populate('game')
+        },
     },
     Mutation: {
-        newRoom: async (root, { password, game }, { req }, info) => {
+        newRoom: async (root, args, { req }, info) => {
             let user = await isLoggedIn(req.headers.authorization)
 
+            let cr = { ...args, players: [user.id] }
+
             let createdRoom = await Room.create({
-                password,
-                game,
-                players: [user.id],
+                ...cr,
             })
 
             console.log(createdRoom)
 
-            user.gameInProgress = createdRoom.id
+            let updatedUser = await User.findByIdAndUpdate(user.id, {
+                gameInProgress: createdRoom.id,
+            })
 
-            await user.save()
+            console.log(updatedUser)
 
             return createdRoom
         },

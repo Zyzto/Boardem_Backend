@@ -4,6 +4,7 @@ export default gql`
     extend type Query {
         rooms: [Room!]!
         room(id: ID!): Room!
+        gameRooms(game: ID!): [Room!]!
     }
     extend type Mutation {
         newRoom(password: String, game: ID!): Room!
@@ -31,6 +32,7 @@ export default gql`
         state: State
         password: String
         chat: Chat
+        game(id: ID): Game
     }
     type State {
         currentPlayer: Int
