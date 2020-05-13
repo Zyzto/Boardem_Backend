@@ -56,5 +56,33 @@ export default {
                 }
             } else throw new AuthenticationError(`${userInput} is not found`)
         },
+        editUser: async (root, args, { req }, info) => {
+            console.log('REQ ', req.headers)
+            let user = await isLoggedIn(req.headers.authorization)
+            console.log(args.password)
+            console.log(user)
+            if (!(await compareSync(args.password, user.password)))
+                throw new AuthenticationError('Invalid Password')
+            console.log('ARGS 1 ', args)
+            if (args.newPassword) {
+                console.log('here')
+                args.password = args.newPassword
+                delete args.newPassword
+            }
+            delete args.password
+            console.log('ARGS 2 ', args)
+            console.log('User ', user)
+            return await User.findByIdAndUpdate(
+                user.id,
+                { ...args },
+                { new: true }
+            )
+        },
+        deleteUser: async (root, args, { req }, info) => {
+            let user = await isLoggedIn(req.headers.authorization)
+
+            await User.findByIdAndDelete(user.id)
+            return `${user.username} has been deleted`
+        },
     },
 }
