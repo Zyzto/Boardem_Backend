@@ -1,28 +1,17 @@
 import mongoose from 'mongoose'
+import { number } from '@hapi/joi'
 
 const gameSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
     },
+    maxPlayers: {
+        type: Number,
+        required: true,
+    },
     img: {
         type: String,
-        required: true,
-    },
-    gameDetails: {
-        type: String,
-        required: true,
-    },
-    isScorable: {
-        type: Boolean,
-        required: true,
-    },
-    playersLimit: {
-        type: Number,
-        required: true,
-    },
-    time: {
-        type: Number,
         required: true,
     },
 })
