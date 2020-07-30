@@ -13,6 +13,7 @@ export default Joi.object({
         .min(8)
         .message('Password must have a minimum of 8 characters')
         .max(30)
+        .message('Password must have a maximum of 30 characters')
         .pattern(/^((?=.*[\d])(?=.*[a-z]))/)
         .message('Password must have at least 1 letter and 1 number'),
     email: Joi.string()
